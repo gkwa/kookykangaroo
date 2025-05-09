@@ -1,0 +1,32 @@
+[project]
+name = "kookykangaroo"
+version = "0.1.0"
+description = "Parse Markdown files into Neo4j graphs and traverse them"
+readme = "README.md"
+authors = [
+    { name = "Taylor Monacelli", email = "taylormonacelli@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "markdown",
+    "neo4j",
+    "rich",
+    "typer",
+    "python-dotenv"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "black",
+    "isort",
+    "mypy"
+]
+
+[project.scripts]
+kookykangaroo = "kookykangaroo.cli:app"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
