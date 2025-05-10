@@ -1,11 +1,11 @@
 """Command line interface for KookyKangaroo."""
 
-import os
 import sys
 
 import dotenv
 import typer
 
+from kookykangaroo.credentials import get_neo4j_credentials
 from kookykangaroo.logger import get_logger
 from kookykangaroo.markdown_parser import MarkdownParser
 from kookykangaroo.neo4j_graph import Neo4jGraph
@@ -47,12 +47,8 @@ def create_graph(
 ) -> None:
     """Create a Neo4j graph from a markdown file."""
     try:
-        # Get credentials from environment variables if not provided
-        uri = uri or os.environ.get("NEO4J_URI", "bolt://localhost:7687")
-        username = username or os.environ.get("NEO4J_USERNAME", "neo4j")
-        password = password or os.environ.get(
-            "NEO4J_PASSWORD", "neo4j"
-        )
+        # Get credentials from dedicated module
+        uri, username, password = get_neo4j_credentials(uri, username, password)
 
         with open(file, "r", encoding="utf-8") as f:
             content = f.read()
@@ -78,12 +74,8 @@ def traverse_graph(
 ) -> None:
     """Traverse a graph and print it as markdown."""
     try:
-        # Get credentials from environment variables if not provided
-        uri = uri or os.environ.get("NEO4J_URI", "bolt://localhost:7687")
-        username = username or os.environ.get("NEO4J_USERNAME", "neo4j")
-        password = password or os.environ.get(
-            "NEO4J_PASSWORD", "neo4j"
-        )
+        # Get credentials from dedicated module
+        uri, username, password = get_neo4j_credentials(uri, username, password)
 
         graph = Neo4jGraph(uri, username, password)
         graph.connect()
